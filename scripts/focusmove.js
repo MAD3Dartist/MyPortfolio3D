@@ -23,7 +23,7 @@ function callback(records) {
 
 function initializeObserver() {
   const videos = document.querySelectorAll(".observe-video");
-  const observer = new IntersectionObserver(callback, { threshold: 0.35 });
+  const observer = new IntersectionObserver(callback, { threshold: 0.8 });
 
   videos.forEach((video) => {
     observer.observe(video);
