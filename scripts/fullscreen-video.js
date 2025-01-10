@@ -6,6 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       const video = link.querySelector("video");
 
+      if (!video) return;
+
+      // Пометим активное видео
+      video.setAttribute("data-active", "true");
+
       // Запрос полноэкранного режима
       const enterFullscreen = () => {
         if (video.requestFullscreen) {
@@ -24,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       enterFullscreen()
         .then(() => {
-          // Убедимся, что стили применяются корректно
+          // Применение стилей для полноэкранного режима
           video.style.width = "100%";
           video.style.height = "100%";
-          video.style.objectFit = "contain"; // Или "contain", если хотите видеть всё видео
+          video.style.objectFit = "contain";
 
           // Блокировка ориентации экрана
           if (screen.orientation && screen.orientation.lock) {
@@ -44,10 +49,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Снятие блокировки ориентации при выходе из полноэкранного режима
+  // Снятие блокировки ориентации и стилей при выходе из полноэкранного режима
   document.addEventListener("fullscreenchange", () => {
-    if (!document.fullscreenElement && screen.orientation.unlock) {
-      screen.orientation.unlock();
+    const video = document.querySelector("video[data-active='true']");
+    if (!document.fullscreenElement && video) {
+      // Удаление инлайновых стилей
+      video.style.removeProperty("width");
+      video.style.removeProperty("height");
+      video.style.removeProperty("object-fit");
+
+      // Удаляем атрибут data-active
+      video.removeAttribute("data-active");
+
+      // Разблокировка ориентации экрана (если поддерживается)
+      if (screen.orientation && screen.orientation.unlock) {
+        try {
+          screen.orientation.unlock();
+        } catch (err) {
+          console.warn("Ошибка разблокировки ориентации:", err);
+        }
+      }
     }
   });
 });
