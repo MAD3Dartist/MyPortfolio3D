@@ -24,6 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       enterFullscreen()
         .then(() => {
+          // Убедимся, что стили применяются корректно
+          video.style.width = "100%";
+          video.style.height = "100%";
+          video.style.objectFit = "contain"; // Или "contain", если хотите видеть всё видео
+
           // Блокировка ориентации экрана
           if (screen.orientation && screen.orientation.lock) {
             screen.orientation
