@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   sections.forEach((section) => {
     const thresholdValue = parseFloat(
       section.getAttribute("data-threshold")
-    ) || [0.8, 1];
+    ) || [0.6, 1];
 
     const observer = new IntersectionObserver(
       (entries) => {
